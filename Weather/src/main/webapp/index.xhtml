@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+	<meta charset="utf-8" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Talos Digital</title>
+</h:head>
+<h:body>
+	<p:outputLabel>
+		<h:form id="weather_form">
+			<p:messages id="messages" showDetail="true" autoUpdate="true"
+				closable="true" />
+			<p:panelGrid>
+				<f:facet name="header">
+					<p:row>
+						<p:column colspan="2">
+						Please choose a city and a metric system
+						</p:column>
+					</p:row>
+				</f:facet>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="city" value="Enter the city:" />
+					</p:column>
+					<p:column>
+						<p:inputText id="city" value="#{weatherBean.weather.cityName}"
+							required="true" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="unit" value="Select the metric system:" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="unit" value="#{weatherBean.weather.unit}"
+							required="true">
+							<f:selectItem itemLabel="Select one" itemValue="" />
+							<f:selectItem itemLabel="Metric" itemValue="metric" />
+							<f:selectItem itemLabel="Imperial" itemValue="imperial" />
+						</p:selectOneMenu>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:commandButton value="Get Weather"
+							actionListener="#{weatherBean.foundWeatherByCity()}"
+							update="weather_result" />
+					</p:column>
+					<p:column>
+						<p:ajaxStatus style="display:block;margin-bottom:2em;height:24px;">
+							<f:facet name="default">
+								<h:outputText value="Status: " />
+							</f:facet>
+
+							<f:facet name="start">
+								<h:outputText value="Status: Cargando..." />
+							</f:facet>
+
+							<f:facet name="complete">
+								<h:outputText value="Status: Completed" />
+							</f:facet>
+						</p:ajaxStatus>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+			<br />
+			<p:dataTable id="weather_result" value="#{weatherBean.weatherList}"
+				var="weather" emptyMessage="City not found">
+				<f:facet name="header">Results</f:facet>
+				<p:column headerText="City">
+					<h:outputText value="#{weather.cityName}" />
+				</p:column>
+				<p:column headerText="Country">
+					<h:outputText value="#{weather.country}" />
+				</p:column>
+				<p:column headerText="Latitude">
+					<h:outputText value="#{weather.latitude}" />
+				</p:column>
+				<p:column headerText="Longitude">
+					<h:outputText value="#{weather.longitude}" />
+				</p:column>
+				<p:column headerText="Current Weather">
+					<h:outputText value="#{weather.currentWeather}" />
+				</p:column>
+				<p:column headerText="Wind Speed">
+					<h:outputText value="#{weather.windSpeed}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</p:outputLabel>
+
+</h:body>
+
+</html>
